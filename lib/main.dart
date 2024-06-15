@@ -1,3 +1,4 @@
+import 'package:budget_management_app/card_shape_clipper.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -30,8 +31,16 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Placeholder(),
+    return Scaffold(
+      body: Center(
+          child: ClipPath(
+        clipper: CardShapeClipper(),
+        child: Container(
+          color: Colors.indigo,
+          height: 180,
+          width: MediaQuery.of(context).size.width * 0.8,
+        ),
+      )),
     );
   }
 }
