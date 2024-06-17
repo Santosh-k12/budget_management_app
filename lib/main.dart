@@ -33,32 +33,48 @@ class _MyHomePageState extends State<MyHomePage>
   late AnimationController _animationController;
   late Animation<Offset> _middleCardAnimation;
   late Animation<Offset> _topCardAnimation;
+  late Animation<Offset> _lastCardAnimation;
 
   @override
   void initState() {
     super.initState();
     _animationController = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 1),
-    );
-    _middleCardAnimation = Tween(
-      begin: const Offset(0.0, 0.0),
-      end: const Offset(0.0, -0.55),
-    ).animate(
-      CurvedAnimation(
-        parent: _animationController,
-        curve: Curves.easeInOut,
-      ),
+      duration: const Duration(milliseconds: 800),
     );
     _topCardAnimation = Tween(
       begin: const Offset(0.0, 0.0),
-      end: const Offset(0.0, -1.1),
+      end: const Offset(0.0, -2.5),
     ).animate(
       CurvedAnimation(
         parent: _animationController,
-        curve: Curves.easeInOut,
+        curve: const Interval(0.0, 0.33, curve: Curves.easeInOut),
       ),
     );
+    _middleCardAnimation = Tween(
+      begin: const Offset(0.0, 0.0),
+      end: const Offset(0.0, -1.9),
+    ).animate(
+      CurvedAnimation(
+        parent: _animationController,
+        curve: const Interval(0.33, 0.66, curve: Curves.easeInOut),
+      ),
+    );
+    _lastCardAnimation = Tween(
+      begin: const Offset(0.0, 0.0),
+      end: const Offset(0.0, -1.3),
+    ).animate(
+      CurvedAnimation(
+        parent: _animationController,
+        curve: const Interval(0.66, 1.0, curve: Curves.easeInOut),
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
   }
 
   @override
@@ -68,31 +84,38 @@ class _MyHomePageState extends State<MyHomePage>
       ..forward();
 
     return Scaffold(
-      body: Align(
-        alignment: Alignment.bottomCenter,
-        child: Padding(
-          padding: const EdgeInsets.only(bottom: 35.0),
-          child: Stack(
-            clipBehavior: Clip.none,
-            children: [
-              SlideTransition(
-                position: _topCardAnimation,
-                child: const CardShape(
-                  color: Color.fromRGBO(92, 103, 237, 1),
-                ),
+      body: Stack(
+        alignment: Alignment.center,
+        clipBehavior: Clip.none,
+        children: [
+          Positioned(
+            bottom: -160,
+            child: SlideTransition(
+              position: _topCardAnimation,
+              child: const CardShape(
+                color: Color.fromRGBO(92, 103, 237, 1),
               ),
-              SlideTransition(
-                position: _middleCardAnimation,
-                child: const CardShape(
-                  color: Color.fromRGBO(31, 31, 31, 1),
-                ),
+            ),
+          ),
+          Positioned(
+            bottom: -160,
+            child: SlideTransition(
+              position: _middleCardAnimation,
+              child: const CardShape(
+                color: Color.fromRGBO(31, 31, 31, 1),
               ),
-              const CardShape(
+            ),
+          ),
+          Positioned(
+            bottom: -160,
+            child: SlideTransition(
+              position: _lastCardAnimation,
+              child: const CardShape(
                 color: Color.fromRGBO(15, 21, 204, 1),
               ),
-            ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
