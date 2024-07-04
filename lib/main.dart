@@ -1,3 +1,4 @@
+import 'package:budget_management_app/card_details.dart';
 import 'package:budget_management_app/card_shape.dart';
 import 'package:flutter/material.dart';
 
@@ -30,6 +31,42 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage>
     with SingleTickerProviderStateMixin {
+  List<CardDetails> cards = [
+    CardDetails(
+      color: [
+        const Color.fromARGB(255, 128, 137, 246),
+        const Color.fromARGB(255, 81, 93, 234),
+      ],
+      bankName: 'YRB YourBank',
+      currency: 'PLN',
+      cardNumber: '4554 **** **** 7356',
+      holderName: 'Eduard Albina',
+      dueDate: '08/29',
+    ),
+    CardDetails(
+      color: [
+        const Color.fromARGB(255, 56, 56, 56),
+        const Color.fromARGB(255, 28, 28, 28),
+      ],
+      bankName: 'BetaBank',
+      currency: 'EUR',
+      cardNumber: '9732 **** **** 8452',
+      holderName: 'Neelima Liesel',
+      dueDate: '03/35',
+    ),
+    CardDetails(
+      color: [
+        const Color.fromARGB(255, 31, 97, 245),
+        const Color.fromARGB(255, 17, 24, 207),
+      ],
+      bankName: 'MNO Bank',
+      currency: 'USD',
+      cardNumber: '7564 **** **** 5658',
+      holderName: 'Monica Warren',
+      dueDate: '12/25',
+    ),
+  ];
+
   late AnimationController _animationController;
   late Animation<Offset> _middleCardAnimation;
   late Animation<Offset> _topCardAnimation;
@@ -92,8 +129,8 @@ class _MyHomePageState extends State<MyHomePage>
             bottom: -160,
             child: SlideTransition(
               position: _topCardAnimation,
-              child: const CardShape(
-                color: Color.fromRGBO(92, 103, 237, 1),
+              child: CardShape(
+                cardDetails: cards[0],
               ),
             ),
           ),
@@ -101,8 +138,8 @@ class _MyHomePageState extends State<MyHomePage>
             bottom: -160,
             child: SlideTransition(
               position: _middleCardAnimation,
-              child: const CardShape(
-                color: Color.fromRGBO(31, 31, 31, 1),
+              child: CardShape(
+                cardDetails: cards[1],
               ),
             ),
           ),
@@ -110,8 +147,20 @@ class _MyHomePageState extends State<MyHomePage>
             bottom: -160,
             child: SlideTransition(
               position: _lastCardAnimation,
-              child: const CardShape(
-                color: Color.fromRGBO(15, 21, 204, 1),
+              child: Stack(
+                children: [
+                  CardShape(
+                    cardDetails: cards[2],
+                  ),
+                  // Positioned(
+                  //   left: 80,
+                  //   child: Container(
+                  //     height: 60,
+                  //     width: 80,
+                  //     color: const Color.fromRGBO(84, 110, 243, 1),
+                  //   ),
+                  // ),
+                ],
               ),
             ),
           ),
